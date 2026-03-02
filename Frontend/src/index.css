@@ -1,0 +1,267 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #3b82f6;
+    border-radius: 99px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2563eb;
+  }
+}
+
+/* ── Shimmer button sweep ───────────────────────────────────────────────── */
+@keyframes shimmer-sweep {
+  0%   { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(300%)  skewX(-15deg); }
+}
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.25) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%) skewX(-15deg);
+  animation: shimmer-sweep 2.8s ease-in-out infinite;
+}
+
+/* ── Gradient border spin ───────────────────────────────────────────────── */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.gradient-border-spin {
+  position: relative;
+}
+.gradient-border-spin::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    #3b82f6, #06b6d4, #8b5cf6, #3b82f6
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: spin-slow 4s linear infinite;
+}
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes rotate-angle {
+  to { --angle: 360deg; }
+}
+.gradient-border-anim::before {
+  animation: rotate-angle 4s linear infinite;
+}
+
+/* ── Aurora background ──────────────────────────────────────────────────── */
+@keyframes aurora-move {
+  0%, 100% { transform: translate(0,   0)   scale(1); }
+  33%       { transform: translate(30px, -20px) scale(1.05); }
+  66%       { transform: translate(-20px, 15px) scale(0.97); }
+}
+.aurora-orb {
+  animation: aurora-move 8s ease-in-out infinite;
+}
+.aurora-orb-2 {
+  animation: aurora-move 11s ease-in-out infinite reverse;
+}
+.aurora-orb-3 {
+  animation: aurora-move 14s ease-in-out infinite 2s;
+}
+
+/* ── Floating animation ─────────────────────────────────────────────────── */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+.float-animate {
+  animation: float-y 5s ease-in-out infinite;
+}
+
+/* ── Glow pulse ─────────────────────────────────────────────────────────── */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(59,130,246,0.3), 0 0 60px rgba(6,182,212,0.1); }
+  50%       { box-shadow: 0 0 40px rgba(59,130,246,0.5), 0 0 80px rgba(6,182,212,0.2); }
+}
+.glow-btn {
+  animation: glow-pulse 2.5s ease-in-out infinite;
+}
+
+/* ── Text gradient animation ────────────────────────────────────────────── */
+@keyframes text-shimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animated-gradient-text {
+  background: linear-gradient(270deg, #60a5fa, #06b6d4, #8b5cf6, #3b82f6);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 4s ease infinite;
+}
+
+/* ── Grid pattern overlay ───────────────────────────────────────────────── */
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(rgba(59,130,246,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.dark .bg-grid-pattern {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Card hover glow ────────────────────────────────────────────────────── */
+.card-glow {
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.dark .card-glow:hover {
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.4), 0 8px 32px rgba(59,130,246,0.15);
+}
+.card-glow:hover {
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.25), 0 8px 32px rgba(59,130,246,0.08);
+}
+
+/* ── Dot pattern ────────────────────────────────────────────────────────── */
+.bg-dot-pattern {
+  background-image: radial-gradient(rgba(59,130,246,0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.dark .bg-dot-pattern {
+  background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* React Big Calendar dark theme overrides */
+.rbc-calendar {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.dark .rbc-calendar {
+  background: transparent;
+  color: #e2e8f0;
+}
+
+.dark .rbc-header {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #93c5fd;
+  padding: 8px;
+}
+
+.dark .rbc-month-view,
+.dark .rbc-time-view,
+.dark .rbc-agenda-view {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .rbc-day-bg,
+.dark .rbc-month-row,
+.dark .rbc-time-slot,
+.dark .rbc-time-content,
+.dark .rbc-time-header-content {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark .rbc-off-range-bg {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dark .rbc-today {
+  background: rgba(59, 130, 246, 0.15);
+}
+
+.dark .rbc-event {
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  padding: 2px 6px;
+}
+
+.dark .rbc-show-more {
+  color: #60a5fa;
+}
+
+.dark .rbc-toolbar button {
+  color: #94a3b8;
+  border-color: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+}
+
+.dark .rbc-toolbar button:hover,
+.dark .rbc-toolbar button.rbc-active {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border-color: #3b82f6;
+}
+
+.dark .rbc-toolbar .rbc-toolbar-label {
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+/* Light calendar */
+.rbc-event {
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  border: none;
+  border-radius: 6px;
+}
+
+.rbc-today {
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.rbc-toolbar button.rbc-active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
